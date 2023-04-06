@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}アカウント作成{% endblock %} ← titleを入れる
+
+{% block content %}
+<form method="post" class="p-4 m-4 bg-light border border-success rounded form-group">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <input type="submit" value="アカウント作成">
+</form>
+{% endblock %}
