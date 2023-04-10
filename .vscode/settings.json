@@ -20,4 +20,7 @@
     "editor.tabSize": 4,
     "editor.defaultFormatter": "ms-python.python"
   },
+  "python.analysis.extraPaths": [
+    "C:\\Users\\kkkkk\\backend-final-assignment-Kosei-Arakida-Kosei\\myvenv\\Lib\\site-packages\\django\\__init__.py"
+  ],
 }

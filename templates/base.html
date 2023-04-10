@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Document</title>
+  <meta charset="utf-8">
+  <title>{% block title %}{% endblock %}</title>
 </head>
+
 <body>
+  <header>
+    <h1>バックエンド最終課題</h1>
+    <button onclick="location.href='http://127.0.0.1:8000/accounts/signup/'">サインアップ</button>
+    <button onclick="location.href='http://127.0.0.1:8000/'">ログイン</button>
+    <button onclick="location.href='http://127.0.0.1:8000/'">Twitter clone</button>
+
+
+  </header>
+  {% block content %}{% endblock %}
 
 </body>
+
 </html>
