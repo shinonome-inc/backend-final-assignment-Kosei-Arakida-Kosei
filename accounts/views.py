@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 
 from .forms import SignupForm
 
@@ -20,3 +22,15 @@ class SignupView(CreateView):
         if user is not None:
             login(self.request, user)
         return response
+
+
+class LoginView(LoginView):
+    template_name = "accounts/login.html"
+
+
+class LogoutView(LoginRequiredMixin, LogoutView):
+    pass
+
+
+class UserProfileView(LoginRequiredMixin, TemplateView):
+    template_name = "accounts/user_profile.html"
