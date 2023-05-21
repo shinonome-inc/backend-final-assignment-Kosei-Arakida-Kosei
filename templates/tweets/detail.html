@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}詳細{% endblock %}
+{% block content %}
+<h1>詳細</h1>
+<div class="container">
+    {% include 'tweets/tweet.html' with tweet=tweet %}
+
+    {% if tweet.user == request.user %}
+    <a href="{% url 'tweets:delete' tweet.pk %}" class="btn btn-danger ms-3" tabindex="-1" role="button"
+        aria-disabled="true">削除</a>
+    {% endif %}
+</div>
+</div>
+{% endblock %}
