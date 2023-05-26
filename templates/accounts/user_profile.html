@@ -1,11 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}{% endblock %}
 {% block content %}
-<h2>{{user.username}}の詳細</h2>
-{% if user.username != request.user.username %}
-{% endif %}
-<form method="POST">
-</form>
+<h2>{{username}}の詳細</h2>
 {% for tweet in tweets %}
 {% include 'tweets/tweet.html' with tweet=tweet %}
 {% endfor %}

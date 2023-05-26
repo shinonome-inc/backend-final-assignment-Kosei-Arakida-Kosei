@@ -1,39 +1,39 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, CreateView, DetailView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.views.generic import CreateView, DeleteView, DetailView, ListView
 
 from .models import Tweet
 
 
-class HomeView(LoginRequiredMixin, TemplateView):
+class HomeView(LoginRequiredMixin, ListView):
     template_name = "tweets/home.html"
     model = Tweet
+    context_object_name = "tweets"
 
     def get_queryset(self):
-        return Tweet.objects.exclude(user=self.request.user)
+        return Tweet.objects.filter(user=self.request.user)
 
 
 class TweetCreateView(LoginRequiredMixin, CreateView):
     template_name = "tweets/create.html"
     fields = ["title", "content"]
     model = Tweet
-    success_url = reverse_lazy("tweets/home.html")
+    success_url = reverse_lazy("tweets:home")
 
-    def homevalid(self, form):
+    def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 
-class TweetDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class TweetDetailView(LoginRequiredMixin, DetailView):
     model = Tweet
     template_name = "tweets/detail.html"
 
 
-class TweetDeleteView(LoginRequiredMixin, DeleteView):
+class TweetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = "tweets/delete.html"
+    model = Tweet
+    success_url = reverse_lazy("tweets:home")
 
-    def test_func(self, **kwargs):
-        pk = self.kwargs["pk"]
-        post = Tweet.objects.get(pk=pk)
-        return post.user == self.request.user
+    def test_func(self):
+        return self.get_object().user == self.request.user
