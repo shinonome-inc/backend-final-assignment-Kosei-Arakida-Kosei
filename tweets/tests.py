@@ -30,17 +30,22 @@ class TestTweetCreateView(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_success_post(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_failure_post_with_empty_content(self):
         test_tweet = {"title": "test", "content": "testtweet"}
         response = self.client.post(self.url, test_tweet)
         self.assertRedirects(response, reverse("tweets:home"), status_code=302, target_status_code=200)
         self.assertTrue(Tweet.objects.filter(content=test_tweet["content"]).exists())
 
+    def test_failure_post_with_empty_content(self):
+        empty_tweet = {"title": "test", "content": ""}
+        response = self.client.post(self.url, empty_tweet)
+        self.assertEqual(response.status_code, 200)
+
+        form = response.context["form"]
+        self.assertEqual(form.errors["content"], ["このフィールドは必須です。"])
+        self.assertFalse(Tweet.objects.exists())
+
     def test_failure_post_with_too_long_content(self):
-        too_long_tweet = {"content": "n" * 101}
+        too_long_tweet = {"content": "n" * 101, "title": "test"}
         response = self.client.post(self.url, too_long_tweet)
         self.assertEqual(response.status_code, 200)
 
