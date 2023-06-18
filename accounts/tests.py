@@ -272,7 +272,7 @@ class TestUserProfileView(TestCase):
         Tweet.objects.create(user=self.user2, content="testcontent")
         response = self.client.get(self.url)
 
-        self.assertQuerysetEqual(response.context["object_list"], Tweet.objects.filter(user=self.user1))
+        self.assertQuerysetEqual(response.context["tweets"], Tweet.objects.filter(user=self.user1))
 
 
 # class TestUserProfileEditView(TestCase):
