@@ -8,10 +8,8 @@ from .models import Tweet
 class HomeView(LoginRequiredMixin, ListView):
     template_name = "tweets/home.html"
     model = Tweet
+    queryset = model.objects.select_related("user").order_by("-created_at")
     context_object_name = "tweets"
-
-    def get_queryset(self):
-        return Tweet.objects.filter(user=self.request.user)
 
 
 class TweetCreateView(LoginRequiredMixin, CreateView):
