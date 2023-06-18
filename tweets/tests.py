@@ -18,8 +18,6 @@ class TestHomeView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context["object_list"], Tweet.objects.all())
 
-    print(Tweet.objects.all())
-
 
 class TestTweetCreateView(TestCase):
     def setUp(self):
